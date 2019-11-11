@@ -23,12 +23,12 @@ form{
     resize: none;
     height: 100px;
 }
-#iconEditar{
+.colorEdit{
     padding-left: 10px;
     color: green;
     cursor: pointer;
 }
-#iconEliminar{
+.colorElim{
     padding-left: 15px;
     color: red;
     cursor: pointer;

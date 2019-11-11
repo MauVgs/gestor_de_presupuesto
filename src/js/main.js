@@ -6,12 +6,14 @@ window.onload = function(){
     }else{
         alert('Error en el boton');
     }
+
 }
 
 const arreG = [];
 let datos = [];
 
 function comprobar(){
+
 
     let concepto = document.getElementById('concepto').value;
     let tipo = document.getElementById('tipo').value;
@@ -35,8 +37,10 @@ function comprobar(){
     }
 
 }
-
+let sizeTd = document.getElementsByTagName('tr');
 function guardar(data){
+
+    let c = sizeTd.length;
     
     document.getElementById("concepto").value = "";
     document.getElementById("tipo").value = "";
@@ -48,6 +52,7 @@ function guardar(data){
     let divTabla = document.getElementById('datos');
     let tabla = document.getElementById('tabla');
     let fila = document.createElement('tr');
+    fila.id = 'fila' +c;
 
     let colConcepto = document.createElement('td');
     let colTipo = document.createElement('td');
@@ -59,14 +64,16 @@ function guardar(data){
     let colEliminar = document.createElement('td');
 
     let iconEditar = document.createElement('i');
-    iconEditar.id = 'iconEditar';
-    iconEditar.className = 'material-icons';
+    iconEditar.id = c;
+    iconEditar.className = 'material-icons colorEdit';
     iconEditar.innerHTML = 'edit';
+    iconEditar.setAttribute("onClick", "editar(event)")
 
     let iconEliminar = document.createElement('i');
-    iconEliminar.id = 'iconEliminar';
-    iconEliminar.className = 'material-icons';
+    iconEliminar.id = c;
+    iconEliminar.className = 'material-icons colorElim';
     iconEliminar.innerHTML = 'delete_forever';
+    iconEliminar.setAttribute("onClick", "eliminar(event)")
 
     colEditar.appendChild(iconEditar);
     colEliminar.appendChild(iconEliminar);
@@ -92,4 +99,23 @@ function guardar(data){
     
 
 
+}
+
+function editar(event){
+    let identificador = event.target.id;
+    alert('Editar: '+identificador);
+
+    
+
+
+}
+
+function eliminar(event){
+    let identificador = event.target.id;
+    let confirmacion = confirm('¿Estás seguro?');
+    
+    if(confirmacion == true){
+        let tabla = document.getElementById("tabla");
+        tabla.deleteRow(identificador);
+    }
 }
