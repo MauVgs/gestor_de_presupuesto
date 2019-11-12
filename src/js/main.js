@@ -14,15 +14,13 @@ window.onload = () => {
 function guardarDatos(){
     id++;
     obtenerDatos();
-    pintarDatos();
-
 }
 
 function obtenerDatos(){
     
 
     //Obtiene datos del DOM
-      let datos = {
+      let info = {
         id:id,
         concepto: document.getElementById('concepto').value,
         tipo: document.getElementById('tipo').value,
@@ -31,13 +29,14 @@ function obtenerDatos(){
         comentarios: document.getElementById('comentarios').value
     };
 
-
+    datos.push(info);
+    
     limpiarCampos();
     console.log(datos);
-    
-}
+    pintarDatos(info);
 
-function pintarDatos(){
+}
+function pintarDatos(info){
 
     //Creaciòn de elementos para colocarles datos
     let tabla = document.getElementById('tabla');
@@ -46,32 +45,32 @@ function pintarDatos(){
 
     //Pintar datos
     let colId = document.createElement('td');
-    colId.innerHTML = datos.id;
+    colId.innerHTML = info.id;
     fila.appendChild(colId);
 
     let colConcepto = document.createElement('td');
-    colConcepto.innerHTML = datos.concepto;
+    colConcepto.innerHTML = info.concepto;
     fila.appendChild(colConcepto);
 
     let colTipo = document.createElement('td');
-    colTipo.innerHTML = datos.tipo;
+    colTipo.innerHTML = info.tipo;
     fila.appendChild(colTipo);
 
     let colMonto = document.createElement('td');
-    colMonto.innerHTML = datos.monto;
+    colMonto.innerHTML = info.monto;
     fila.appendChild(colMonto);
 
     let colFecha = document.createElement('td');
-    colFecha.innerHTML = datos.fecha;
+    colFecha.innerHTML = info.fecha;
     fila.appendChild(colFecha);
 
     let colComentarios = document.createElement('td');
-    colComentarios.innerHTML = datos.comentarios;
+    colComentarios.innerHTML = info.comentarios;
     fila.appendChild(colComentarios);
 
     //Pintar iconos editar y eliminar
     let acciones = document.createElement('td');
-    acciones.innerHTML = `<button type="button" class="btn btn-success"><i class="material-icons">edit</i></button><button type="button" class="btn btn-danger" onclick="borrar(${datos.id})"><i class="material-icons">delete</i></button>`;
+    acciones.innerHTML = `<button type="button" class="btn btn-success"><i class="material-icons">edit</i></button><button type="button" class="btn btn-danger" onclick="borrar(${info.id})"><i class="material-icons">delete</i></button>`;
     fila.appendChild(acciones);
 
 
@@ -89,9 +88,9 @@ function limpiarCampos(){
     document.getElementById('comentarios').value = '';
 }
 
-function borrar(arre, ide){
-    eliminarDato(arre, ide);
-    pintarDatos
+function borrar(ide){
+    console.log('Enta'+datos[0], ide); 
+    eliminarDato(datos[0], ide);
 }
 
 function eliminarDato(arre, value){
@@ -100,7 +99,6 @@ function eliminarDato(arre, value){
     return arre.filter(function(ele){
         return ele.id != value;
     });
-    
 }   
 
 
