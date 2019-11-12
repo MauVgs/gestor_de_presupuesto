@@ -22,7 +22,7 @@ function obtenerDatos(){
     
 
     //Obtiene datos del DOM
-      let datos = {
+      let info = {
         id:id,
         concepto: document.getElementById('concepto').value,
         tipo: document.getElementById('tipo').value,
@@ -31,52 +31,57 @@ function obtenerDatos(){
         comentarios: document.getElementById('comentarios').value
     };
 
+    datos.push(info);
+
 
     limpiarCampos();
-    console.log(datos);
     
 }
 
 function pintarDatos(){
 
     //Creaciòn de elementos para colocarles datos
-    let tabla = document.getElementById('tabla');
-    let fila = document.createElement('tr');
+    tbody = document.querySelector("#tabla tbody");
+    tbody.innerHTML = '';
 
+    datos.forEach(element => {
+        let fila = document.createElement('tr');
 
-    //Pintar datos
-    let colId = document.createElement('td');
-    colId.innerHTML = datos.id;
-    fila.appendChild(colId);
+        //Pintar datos
+        let colId = document.createElement('td');
+        colId.innerHTML = element.id;
+        fila.appendChild(colId);
 
-    let colConcepto = document.createElement('td');
-    colConcepto.innerHTML = datos.concepto;
-    fila.appendChild(colConcepto);
+        let colConcepto = document.createElement('td');
+        colConcepto.innerHTML = element.concepto;
+        fila.appendChild(colConcepto);
 
-    let colTipo = document.createElement('td');
-    colTipo.innerHTML = datos.tipo;
-    fila.appendChild(colTipo);
+        let colTipo = document.createElement('td');
+        colTipo.innerHTML = element.tipo;
+        fila.appendChild(colTipo);
 
-    let colMonto = document.createElement('td');
-    colMonto.innerHTML = datos.monto;
-    fila.appendChild(colMonto);
+        let colMonto = document.createElement('td');
+        colMonto.innerHTML = element.monto;
+        fila.appendChild(colMonto);
 
-    let colFecha = document.createElement('td');
-    colFecha.innerHTML = datos.fecha;
-    fila.appendChild(colFecha);
+        let colFecha = document.createElement('td');
+        colFecha.innerHTML = element.fecha;
+        fila.appendChild(colFecha);
 
-    let colComentarios = document.createElement('td');
-    colComentarios.innerHTML = datos.comentarios;
-    fila.appendChild(colComentarios);
+        let colComentarios = document.createElement('td');
+        colComentarios.innerHTML = element.comentarios;
+        fila.appendChild(colComentarios);
 
-    //Pintar iconos editar y eliminar
-    let acciones = document.createElement('td');
-    acciones.innerHTML = `<button type="button" class="btn btn-success"><i class="material-icons">edit</i></button><button type="button" class="btn btn-danger" onclick="borrar(${datos.id})"><i class="material-icons">delete</i></button>`;
-    fila.appendChild(acciones);
+        //Pintar iconos editar y eliminar
+        let acciones = document.createElement('td');
+        acciones.innerHTML = `<button type="button" class="btn btn-success"><i class="material-icons">edit</i></button><button type="button" class="btn btn-danger" onclick="borrar(${element.id})"><i class="material-icons">delete</i></button>`;
+        fila.appendChild(acciones);
 
+         //Pintar en tabla los datos
+         tbody.appendChild(fila);
+    })    
 
-    //Pintar en tabla los datos
-    tabla.appendChild(fila);
+    
 }
 
 function limpiarCampos(){
@@ -89,14 +94,26 @@ function limpiarCampos(){
     document.getElementById('comentarios').value = '';
 }
 
-function borrar(arre, ide){
-    eliminarDato(arre, ide);
-    pintarDatos
+function borrar(id){
+    // preguntamos si desea eliminarlo
+    const value = confirm('¿Deseas eliminarlo?');
+
+    if(value){
+        // eliminar fila
+        //document.querySelector("#fila_" + id).remove();
+        datos = eliminarDato(datos, id);
+        pintarDatos();
+    }else{
+        // no hacer nada
+    }
 }
 
+/*function borrar(arre, ide){
+    eliminarDato(arre, ide);
+    pintarDatos
+}*/
+
 function eliminarDato(arre, value){
-    
-    console.log('Eliminar '+arre + value)
     return arre.filter(function(ele){
         return ele.id != value;
     });
