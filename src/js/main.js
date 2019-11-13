@@ -3,8 +3,14 @@ let datos = [];
 
 let id = 0;
 window.onload = () => {
+
+
     
     const btnGuardar = document.getElementById('btn-guardar');
+    if(btnGuardar.innerHTML == 'Actualizar'){
+        addEventListener('click', actualizarDatos);
+    }
+
     if(btnGuardar){
         btnGuardar.addEventListener('click', guardarDatos);
     }
@@ -17,8 +23,8 @@ function guardarDatos(){
 }
 
 function obtenerDatos(){
-    
 
+    
     //Obtiene datos del DOM
       let info = {
         id:id,
@@ -29,11 +35,17 @@ function obtenerDatos(){
         comentarios: document.getElementById('comentarios').value
     };
 
-    datos.push(info);
     
-    limpiarCampos();
-    console.log(datos);
-    pintarDatos();
+   
+        datos.push(info);
+        limpiarCampos();
+        pintarDatos();
+
+  
+        
+        
+
+    
 
 
 }
@@ -74,7 +86,7 @@ function pintarDatos(){
 
         //Pintar iconos editar y eliminar
         let acciones = document.createElement('td');
-        acciones.innerHTML = `<button type="button" class="btn btn-success"><i class="material-icons">edit</i></button><button type="button" class="btn btn-danger" onclick="borrar(${element.id})"><i class="material-icons">delete</i></button>`;
+        acciones.innerHTML = `<button type="button" class="btn btn-success" onclick="editarDato(${element.id})"><i class="material-icons">edit</i></button><button type="button" class="btn btn-danger" onclick="borrar(${element.id})"><i class="material-icons">delete</i></button>`;
         fila.appendChild(acciones);
 
          //Pintar en tabla los datos
@@ -85,7 +97,10 @@ function pintarDatos(){
 }
 
 function limpiarCampos(){
-    
+    const btnGuardar = document.getElementById('btn-guardar');
+    btnGuardar.innerText = 'Guardar';
+    const hiden = document.getElementById('id').value;
+    hiden.innerText = "";
     //Colocar en blanco los campos
     document.getElementById('concepto').value = '';
     document.getElementById('tipo').value = '';
@@ -109,20 +124,57 @@ function borrar(id){
     }
 }
 
-/*function borrar(arre, ide){
-    eliminarDato(arre, ide);
-    pintarDatos
-}*/
+
+
 
 
 function eliminarDato(arre, value){
     return arre.filter(function(ele){
         return ele.id != value;
     });
+    
 }   
 
 
+function editarDato(id){
+    
+    let identificar = obtenerKey(datos, id);
+    
+    pintarDatosEditar(datos, identificar);
+    
 
+
+}
+
+function pintarDatosEditar(datos, id){
+        
+        const btnGuardar = document.getElementById('btn-guardar');
+        btnGuardar.innerText = 'Actualizar';
+        let dat = datos[id-1];
+        console.log(dat.id);
+        document.getElementById('id').value = dat.id;
+        document.getElementById('concepto').value = dat.concepto;
+        document.getElementById('tipo').value = dat.tipo;
+        document.getElementById('monto').value = dat.monto;
+        document.getElementById('fecha').value = dat.fecha;
+        document.getElementById('comentarios').value = dat.comentarios;  
+}
+
+function obtenerKey(arre, id){
+    
+    let key = 0;
+    arre.forEach(function(elem){
+        
+        if (elem.id == id){
+             key = id;
+         }
+    })
+    return key;
+}
+
+function actualizarDatos(){
+    alert('Listo para actualizar');
+}
 
 
 
